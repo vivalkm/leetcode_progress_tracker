@@ -35,7 +35,9 @@ def getData(days=0):
 
 # Join with difficulty
 def mapDifficulty(df_submissions):
-    df_submissions["Date"] = pd.to_datetime(df_submissions["timestamp"], unit='s').dt.strftime("%Y-%m-%d")
+    df_submissions["Date"] = (pd.to_datetime(df_submissions["timestamp"], unit='s', utc=True)
+                                .dt.tz_convert('US/Pacific')
+                                .dt.strftime("%Y-%m-%d"))
     df_submissions.drop(["timestamp", "statusDisplay"], axis=1, inplace=True)
     df_submissions = df_submissions.drop_duplicates().reset_index(drop=True)
     # Add difficulty
