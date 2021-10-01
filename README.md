@@ -7,8 +7,8 @@ This tool is used to track your daily efforts on LeetCode. It will show how many
 
 ## 1. Basic Use
 1. Download the repo or clone it using: `git clone https://github.com/vivalkm/leetcode_progress_tracker.git`
-2. Run: `python3 main.py` This will count your solved questions in last 10 days by difficulty
-3. For the first time running, the tracker will ask for your csrftoken & LEETCODE_SESSION cookie which can be found as below.
+2. Run: `python3 main.py` This will count your solved questions by difficulty in last 10 days by default.
+3. For the first time running, the tracker will ask for your csrftoken & LEETCODE_SESSION cookie which can be found by following steps:
    
    a. Log into LeetCode using your browser as you would normally do.
    
