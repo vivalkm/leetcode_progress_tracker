@@ -66,7 +66,7 @@ def allSubmission():
 # Pull recent n days of accepted records by date
 def recentNDaySubmission(days):
     df_submissions = getData(days)
-    print(pivot(df_submissions))
+    print(pivot(df_submissions).tail(days))
 
 if __name__ == '__main__':
     recentNDaySubmission(10)
