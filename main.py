@@ -1,3 +1,4 @@
+from re import sub
 import settings
 import requests
 import json
@@ -14,11 +15,12 @@ requests.utils.add_dict_to_cookiejar(session.cookies, my_cookies)
 
 
 def getData(days=0):
-    df_submissions = pd.DataFrame()
+    df_submissions = None
     has_next = True
     offset = 0
     date_set = set()
     break_flag = False
+    submissions = []
     try:
         while has_next and not break_flag:
             response = session.post(
@@ -26,8 +28,8 @@ def getData(days=0):
             submission_data = json.loads(response.content.decode('utf-8'))
             for submission in submission_data["data"]["submissionList"]["submissions"]:
                 if submission["statusDisplay"] == "Accepted":
-                    df_submissions = df_submissions.append(
-                        submission, ignore_index=True)
+                    submissions.append(
+                        pd.DataFrame(submission, index=[0]))
                     date_set.add(datetime.fromtimestamp(
                         int(submission["timestamp"])).strftime("%Y-%m-%d"))
                     if days > 0 and len(date_set) > days:
@@ -35,9 +37,9 @@ def getData(days=0):
                         break
             offset += 20
             has_next = submission_data["data"]["submissionList"]["hasNext"]
-
+        df_submissions = pd.concat(submissions, ignore_index=True)
         df_submissions = mapDifficulty(df_submissions)
-    except:
+    except NameError:
         print("Server not responding. Please try later.")
     return df_submissions
 
@@ -61,10 +63,10 @@ def mapDifficulty(df_submissions):
                 response = session.post(
                     url+"/graphql", json=settings.QuestionQuery(df_submissions.loc[i, "titleSlug"]))
                 question_data = json.loads(response.content.decode('utf-8'))
-                
+
                 # get difficulty
                 d = question_data["data"]["question"]["difficulty"]
-                
+
                 # rename difficulty for column ordering
                 if d == 'Easy':
                     d = '1_Easy'
