@@ -14,7 +14,9 @@ This tool is used to track your daily efforts on LeetCode. It will show how many
    
    b. Get your csrftoken & LEETCODE_SESSION using the browser inspection tools
    ![image](https://user-images.githubusercontent.com/83200994/135570856-6b61d9dc-88a8-417b-8b28-1d67ece4205c.png)
+4. Sample Output
 
+   ![image](https://user-images.githubusercontent.com/83200994/192086326-5fb64574-06d8-477e-baa6-b6db10c17e27.png)
 
 ## 2. CLI
 1. Count all solved questions by date for your session: `python3 tracker_cli.py -a`
